@@ -141,7 +141,7 @@ module.exports = {
       afterColon: true,
     } ],
     'keyword-spacing': 'error',
-    'linebreak-style': [ 'error', 'unix' ],
+    'linebreak-style': 0,
     'lines-around-comment': [ 'error', {
       beforeBlockComment: true,
       allowBlockStart: true,
