@@ -4,6 +4,13 @@ import buildUrl from 'nextjs/utils/buildUrl';
 import fetchFactory from 'nextjs/utils/fetch';
 import { httpLogger } from 'nextjs/utils/logger';
 
+export const config = {
+  runtime: 'edge',
+  unstable_allowDynamic: [
+    '**/node_modules/**/*.js',
+  ],
+};
+
 export default async function csrfHandler(_req: NextApiRequest, res: NextApiResponse) {
   httpLogger(_req, res);
 

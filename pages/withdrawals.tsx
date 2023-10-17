@@ -16,4 +16,4 @@ const Page: NextPage = () => {
 
 export default Page;
 
-export { beaconChain as getServerSideProps } from 'nextjs/getServerSideProps';
+// export { beaconChain as getServerSideProps } from 'nextjs/getServerSideProps';

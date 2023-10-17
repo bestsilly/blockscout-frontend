@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 import fs from 'fs';
-import path from 'path';
 import type { ValidationError } from 'yup';
 
 import schema from './schema';
@@ -31,17 +30,22 @@ async function validateEnvs(appEnvs: Record<string, string>) {
   try {
     // replace ENVs with external JSON files content
     appEnvs.NEXT_PUBLIC_FEATURED_NETWORKS = await getExternalJsonContent(
-      './public/assets/featured_networks.json',
+      'public/assets/featured_networks.json',
       appEnvs.NEXT_PUBLIC_FEATURED_NETWORKS,
     ) || '[]';
     appEnvs.NEXT_PUBLIC_MARKETPLACE_CONFIG_URL = await getExternalJsonContent(
-      './public/assets/marketplace_config.json',
+      'public/assets/marketplace_config.json',
       appEnvs.NEXT_PUBLIC_MARKETPLACE_CONFIG_URL,
     ) || '[]';
     appEnvs.NEXT_PUBLIC_FOOTER_LINKS = await getExternalJsonContent(
-      './public/assets/footer_links.json',
+      'public/assets/footer_links.json',
       appEnvs.NEXT_PUBLIC_FOOTER_LINKS,
     ) || '[]';
+
+    // replace array of string with quotes
+    if (appEnvs.NEXT_PUBLIC_HOMEPAGE_CHARTS) {
+      appEnvs.NEXT_PUBLIC_HOMEPAGE_CHARTS = appEnvs.NEXT_PUBLIC_HOMEPAGE_CHARTS.replace(/(\w+)/g, '\'$1\'');
+    }
 
     await schema.validate(appEnvs, { stripUnknown: false, abortEarly: false });
     console.log('👍 All good!');
@@ -68,8 +72,8 @@ async function getExternalJsonContent(fileName: string, envValue: string): Promi
       resolve();
       return;
     }
-
-    fs.readFile(path.resolve(__dirname, fileName), 'utf8', (err, data) => {
+    // read file from root directory
+    fs.readFile(fileName, 'utf8', (err, data) => {
       if (err) {
         console.log(`🚨 Unable to read file: ${ fileName }`);
         reject(err);
@@ -85,8 +89,8 @@ async function checkPlaceholdersCongruity(envsMap: Record<string, string>) {
   try {
     console.log(`🌀 Checking environment variables and their placeholders congruity...`);
 
-    const runTimeEnvs = await getEnvsPlaceholders(path.resolve(__dirname, '.env.registry'));
-    const buildTimeEnvs = await getEnvsPlaceholders(path.resolve(__dirname, '.env'));
+    const runTimeEnvs = await getEnvsPlaceholders('.env.registry');
+    const buildTimeEnvs = await getEnvsPlaceholders('.env');
     const envs = Object.keys(envsMap).filter((env) => !buildTimeEnvs.includes(env));
 
     const inconsistencies: Array<string> = [];
@@ -111,6 +115,7 @@ async function checkPlaceholdersCongruity(envsMap: Record<string, string>) {
     console.log('👍 All good!\n');
   } catch (error) {
     console.log('🚨 Congruity check failed.\n');
+    console.log(error);
     throw error;
   }
 }

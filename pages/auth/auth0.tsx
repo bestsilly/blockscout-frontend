@@ -6,8 +6,8 @@ const Page: NextPage = () => {
 
 export default Page;
 
-export async function getServerSideProps() {
-  return {
-    notFound: true,
-  };
-}
+// export async function getServerSideProps() {
+//   return {
+//     notFound: true,
+//   };
+// }

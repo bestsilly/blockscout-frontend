@@ -5,6 +5,13 @@ import { httpLogger } from 'nextjs/utils/logger';
 
 import getQueryParamString from 'lib/router/getQueryParamString';
 
+export const config = {
+  runtime: 'edge',
+  unstable_allowDynamic: [
+    '**/node_modules/**/*.js',
+  ],
+};
+
 export default async function mediaTypeHandler(req: NextApiRequest, res: NextApiResponse) {
   httpLogger(req, res);
 

@@ -42,4 +42,6 @@ const PageNextJs = (props: Props) => {
   );
 };
 
+export const runtime = 'experimental-edge';
+
 export default React.memo(PageNextJs);

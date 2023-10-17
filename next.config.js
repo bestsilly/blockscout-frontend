@@ -19,6 +19,9 @@ const moduleExports = {
         __SENTRY_DEBUG__: false,
         __SENTRY_TRACING__: false,
       }),
+      new webpack.NormalModuleReplacementPlugin(/^node:/, (resource) => {
+        resource.request = resource.request.replace(/^node:/, '');
+      }),
     );
     config.module.rules.push(
       {
@@ -26,8 +29,17 @@ const moduleExports = {
         use: [ '@svgr/webpack' ],
       },
     );
-    config.resolve.fallback = { fs: false, net: false, tls: false };
 
+    config.resolve.fallback = {
+      fs: false,
+      net: false,
+      tls: false,
+      path: false,
+      http: false,
+      https: false,
+      zlib: false,
+      'stream/web': false,
+    };
     return config;
   },
   // NOTE: all config functions should be static and not depend on any environment variables

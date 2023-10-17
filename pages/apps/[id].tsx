@@ -18,4 +18,4 @@ const Page: NextPageWithLayout<Props> = (props: Props) => {
 
 export default Page;
 
-export { marketplace as getServerSideProps } from 'nextjs/getServerSideProps';
+// export { marketplace as getServerSideProps } from 'nextjs/getServerSideProps';

@@ -36,4 +36,8 @@ export const config = {
     // e.g. when verifying a smart contract
     bodyParser: false,
   },
+  runtime: 'edge',
+  unstable_allowDynamic: [
+    '**/node_modules/**/*.js',
+  ],
 };

@@ -30,7 +30,9 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # local env files
+.env
 .env*.local
+.env.registry
 /configs/envs/.env.secrets
 /configs/envs/.samples
 
@@ -50,3 +52,6 @@ yarn-error.log*
 /playwright/envs.js
 
 **.dec**
+
+# Vercel
+.vercel
